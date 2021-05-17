@@ -1,0 +1,20 @@
+{
+  "name": "page-scraper-jobs",
+  "version": "1.0.0",
+  "description": "Scrape site for jobs",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.9",
+    "dotenv": "^9.0.2",
+    "node-schedule": "^2.0.0",
+    "nodemailer": "^6.6.0",
+    "puppeteer": "^9.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew Hansen",
+  "license": "ISC"
+}
