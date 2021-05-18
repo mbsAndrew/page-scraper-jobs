@@ -12,4 +12,4 @@ Install NPM Packages
 Enter your varaibles in your `.env` file.
 
 Run your project
-`node index.js`
+`npm run start`
