@@ -3,13 +3,20 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const schedule = require("node-schedule");
 const nodemailer = require("nodemailer");
-const { URL, ENTRYPOINT, EMAIL_USER, EMAIL_PASS, EMAIL_REC } = process.env;
+const http = require("http");
+const { URL, ENTRYPOINT, EMAIL_USER, EMAIL_PASS, EMAIL_REC, PORT } = process.env;
 
 //set up rule to send the email every weekday at 9:30
 const rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [1, 5];
 rule.hour = 9;
 rule.minute = 30;
+
+http.createServer((req, res) => {
+    res.writeHead(200, {"Content-Type": "text/plain"});
+    res.write("Hello World");
+    res.end();
+}).listen(PORT || 8989);
 
 const job = schedule.scheduleJob(rule, initFunc)
 
