@@ -15,10 +15,11 @@ rule.minute = 30;
 http.createServer((req, res) => {
     res.writeHead(200, {"Content-Type": "text/plain"});
     res.write("Hello World");
+    const job = schedule.scheduleJob(rule, initFunc);
     res.end();
 }).listen(PORT || 8989);
 
-const job = schedule.scheduleJob(rule, initFunc)
+
 
 async function initFunc() {
     const pageInfo = await getPageInfo();
