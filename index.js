@@ -10,7 +10,7 @@ const { URL, ENTRYPOINT, EMAIL_USER, EMAIL_PASS, EMAIL_REC, PORT } = process.env
 const rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [1, 5];
 rule.hour = 9;
-rule.minute = 30;
+rule.minute = 55;
 
 http.createServer((req, res) => {
     res.writeHead(200, {"Content-Type": "text/plain"});
