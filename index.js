@@ -3,26 +3,24 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const schedule = require("node-schedule");
 const nodemailer = require("nodemailer");
-const http = require("http");
 const { URL, ENTRYPOINT, EMAIL_USER, EMAIL_PASS, EMAIL_REC, PORT } = process.env;
 
 //set up rule to send the email every weekday at 9:30
 const rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [1, 5];
-rule.hour = 9;
-rule.minute = 55;
+rule.hour = 16;
+rule.minute = 35;
+const job = schedule.scheduleJob(rule, () => {
+    initFunc()
+});
 
-http.createServer((req, res) => {
-    res.writeHead(200, {"Content-Type": "text/plain"});
-    res.write("Hello World");
-    const job = schedule.scheduleJob(rule, initFunc);
-    res.end();
-}).listen(PORT || 8989);
-
-
+function testFunc () {
+    console.log("testing");
+}
 
 async function initFunc() {
-    const pageInfo = await getPageInfo();
+    const pageInfo = await getPageInfo();  
+    console.log("pageInfo", pageInfo);  
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -43,6 +41,7 @@ async function initFunc() {
     }
 
     transporter.sendMail(mailOptions, (err, info) => {
+        console.log("info", info);
         console.log(err ? err : info.response);
     })
 }
@@ -59,7 +58,7 @@ async function getPageInfo () {
     return new Promise((res, rej) => {
         axios(URL)
             .then(response => {
-                const { data } = response;
+                const { data } = response;                
                 const $ = cheerio.load(data);
                 const tableRows = $(ENTRYPOINT);
                 const softwareJobs = [];
