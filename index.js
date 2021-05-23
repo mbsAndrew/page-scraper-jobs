@@ -8,15 +8,11 @@ const { URL, ENTRYPOINT, EMAIL_USER, EMAIL_PASS, EMAIL_REC, PORT } = process.env
 //set up rule to send the email every weekday at 9:30
 const rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [1, 5];
-rule.hour = 16;
-rule.minute = 35;
+rule.hour = 9;
+rule.minute = 30;
 const job = schedule.scheduleJob(rule, () => {
     initFunc()
 });
-
-function testFunc () {
-    console.log("testing");
-}
 
 async function initFunc() {
     const pageInfo = await getPageInfo();  
@@ -67,7 +63,7 @@ async function getPageInfo () {
                     if (index > 0) {
                         const titleCell = $(element.children[3]).text();
                         const department = $(element.children[4]).text();
-                        const closingDate = $(element.children[6]).text();
+                        const closingDate = $(element.children[7]).text();
                         const application = $(element.children[1]).find("img").attr("onclick").split("'");
                         const finalLink = `${URL}${application[1]}`;
 
