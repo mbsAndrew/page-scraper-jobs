@@ -8,16 +8,14 @@ const { URL, ENTRYPOINT, EMAIL_USER, EMAIL_PASS, EMAIL_REC, PORT } = process.env
 //set up rule to send the email every weekday at 9:30
 const rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [1, 5];
-rule.hour = 9;
+rule.hour = 13;
 rule.minute = 30;
-rule.tz = "est";
 const job = schedule.scheduleJob(rule, () => {
     initFunc()
 });
 
 async function initFunc() {
-    const pageInfo = await getPageInfo();  
-    console.log("pageInfo", pageInfo);  
+    const pageInfo = await getPageInfo();      
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
