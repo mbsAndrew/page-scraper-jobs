@@ -10,7 +10,7 @@ const rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [1, 5];
 rule.hour = 9;
 rule.minute = 30;
-rule.tz = "America/New York";
+rule.tz = "America/New_York";
 const job = schedule.scheduleJob(rule, () => {
     initFunc()
 });
