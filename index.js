@@ -2,8 +2,10 @@ require("dotenv").config();
 const axios = require("axios");
 const cheerio = require("cheerio");
 const schedule = require("node-schedule");
-const nodemailer = require("nodemailer");
-const { URL, ENTRYPOINT, EMAIL_USER, EMAIL_PASS, EMAIL_REC, PORT } = process.env;
+const sgMail = require("@sendgrid/mail");
+const { URL, ENTRYPOINT, EMAIL_USER, EMAIL_PASS, EMAIL_REC, PORT, EMAIL_API } = process.env;
+
+sgMail.setApiKey(EMAIL_API);
 
 //set up rule to send the email every weekday at 9:30
 const rule = new schedule.RecurrenceRule();
@@ -16,14 +18,8 @@ const job = schedule.scheduleJob(rule, () => {
 });
 
 async function initFunc() {
-    const pageInfo = await getPageInfo();      
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: EMAIL_USER,
-            pass: EMAIL_PASS
-        }
-    });
+    const pageInfo = await getPageInfo();     
+    
     let mailOptions = {
         from: EMAIL_USER,
         to: EMAIL_REC,
@@ -36,10 +32,13 @@ async function initFunc() {
         mailOptions.text = "No jobs today, sorry!";
     }
 
-    transporter.sendMail(mailOptions, (err, info) => {
-        console.log("info", info);
-        console.log(err ? err : info.response);
+    sgMail.send(mailOptions)
+    .then(() => {}, error => {
+        if (error.response) {
+            console.error(error.response.body);
+        }
     })
+    
 }
 
 function formatDataToList(data) {
@@ -54,6 +53,7 @@ async function getPageInfo () {
     return new Promise((res, rej) => {
         axios(URL)
             .then(response => {
+                console.log(response);
                 const { data } = response;                
                 const $ = cheerio.load(data);
                 const tableRows = $(ENTRYPOINT);
