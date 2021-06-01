@@ -3,7 +3,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const schedule = require("node-schedule");
 const sgMail = require("@sendgrid/mail");
-const { URL, ENTRYPOINT, EMAIL_USER, EMAIL_PASS, EMAIL_REC, PORT, EMAIL_API } = process.env;
+const { URL, ENTRYPOINT, EMAIL_USER, EMAIL_REC, PORT, EMAIL_API } = process.env;
 
 sgMail.setApiKey(EMAIL_API);
 
