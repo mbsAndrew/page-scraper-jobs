@@ -9,15 +9,15 @@ sgMail.setApiKey(EMAIL_API);
 
 //set up rule to send the email every weekday at 9:30
 const rule = new schedule.RecurrenceRule();
-rule.dayOfWeek = [1, 5];
-rule.hour = 9;
-rule.minute = 30;
-rule.tz = "America/New_York";
-const job = schedule.scheduleJob(rule, () => {
-    initFunc()
+rule.dayOfWeek = new schedule.Range(1,5);
+rule.hour = 10;
+rule.minute = 41;
+// rule.tz = "America/New_York";
+const job = schedule.scheduleJob(rule, () => {    
+    initFunc();
 });
 
-async function initFunc() {
+async function initFunc() {    
     const pageInfo = await getPageInfo();     
     
     let mailOptions = {
